@@ -4,25 +4,25 @@
 
 using namespace std;
 
-struct Priority												// содержит приоритет val и знака оператора sign
+struct Priority												// СЃРѕРґРµСЂР¶РёС‚ РїСЂРёРѕСЂРёС‚РµС‚ val Рё Р·РЅР°РєР° РѕРїРµСЂР°С‚РѕСЂР° sign
 {
 	char sign = ' ';
 	int val = 0;
 };
 
-// объявление функций
-void token(string, Priority);								// распознавание чисел 	и операторов	
-void parse(char&, stack <char>&, stack <int>&, Priority);	// определение порядка операторов в стеке
-void sort(stack <char>&, stack <int>&);						// сортировка данных в стеках, замещение на новые
-int op_priority(char&, Priority);							// определение приоритета в зависимости от оператора
-int calc(char&, int, int);									// вычисление перетасовочных значений
+// РѕР±СЉСЏРІР»РµРЅРёРµ С„СѓРЅРєС†РёР№
+void token(string, Priority);								// СЂР°СЃРїРѕР·РЅР°РІР°РЅРёРµ С‡РёСЃРµР» 	Рё РѕРїРµСЂР°С‚РѕСЂРѕРІ	
+void parse(char&, stack <char>&, stack <int>&, Priority);	// РѕРїСЂРµРґРµР»РµРЅРёРµ РїРѕСЂСЏРґРєР° РѕРїРµСЂР°С‚РѕСЂРѕРІ РІ СЃС‚РµРєРµ
+void sort(stack <char>&, stack <int>&);						// СЃРѕСЂС‚РёСЂРѕРІРєР° РґР°РЅРЅС‹С… РІ СЃС‚РµРєР°С…, Р·Р°РјРµС‰РµРЅРёРµ РЅР° РЅРѕРІС‹Рµ
+int op_priority(char&, Priority);							// РѕРїСЂРµРґРµР»РµРЅРёРµ РїСЂРёРѕСЂРёС‚РµС‚Р° РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РѕРїРµСЂР°С‚РѕСЂР°
+int calc(char&, int, int);									// РІС‹С‡РёСЃР»РµРЅРёРµ РїРµСЂРµС‚Р°СЃРѕРІРѕС‡РЅС‹С… Р·РЅР°С‡РµРЅРёР№
 
 int op_priority(char& op, Priority pr)
 {
 	pr.sign = op;
 	if ((op == '+') || (op == '-')) { pr.val = 1; }
 	else if ((op == '*') || (op == '/')) { pr.val = 2; }
-	else { pr.val = 0; }									// т.е. "(" и ")" тоже имеют нулевой приоритет
+	else { pr.val = 0; }									// С‚.Рµ. "(" Рё ")" С‚РѕР¶Рµ РёРјРµСЋС‚ РЅСѓР»РµРІРѕР№ РїСЂРёРѕСЂРёС‚РµС‚
 	return pr.val;
 }
 
@@ -59,7 +59,7 @@ void sort(stack <char>& operations, stack <int>& numbers)
 	numbers.pop();
 	c = operations.top();
 	operations.pop();
-	if (numbers.empty())									// избежание случаев взятия данных из пустого стека
+	if (numbers.empty())									// РёР·Р±РµР¶Р°РЅРёРµ СЃР»СѓС‡Р°РµРІ РІР·СЏС‚РёСЏ РґР°РЅРЅС‹С… РёР· РїСѓСЃС‚РѕРіРѕ СЃС‚РµРєР°
 	{
 		res = calc(c, a, 0);
 		//cout << '0' << c << a << "=" << res << endl;
@@ -79,17 +79,17 @@ void parse(char& op, stack <char>& operations, stack <int>& numbers, Priority pr
 {
 	if (!operations.empty())								
 	{
-		if (op != '(')										// "(" сразу направляется в стек
+		if (op != '(')										// "(" СЃСЂР°Р·Сѓ РЅР°РїСЂР°РІР»СЏРµС‚СЃСЏ РІ СЃС‚РµРє
 		{
 			if (op_priority(op, pr) <= op_priority(operations.top(), pr))
 			{
 				if (op == ')')
 				{
-					while (operations.top() != '(')			// выполнение выражения в скобках до "("
+					while (operations.top() != '(')			// РІС‹РїРѕР»РЅРµРЅРёРµ РІС‹СЂР°Р¶РµРЅРёСЏ РІ СЃРєРѕР±РєР°С… РґРѕ "("
 					{
 						sort(operations, numbers);
 					}
-					operations.pop();						// ")" замещается "(", поэтому "(" удаляется из стека
+					operations.pop();						// ")" Р·Р°РјРµС‰Р°РµС‚СЃСЏ "(", РїРѕСЌС‚РѕРјСѓ "(" СѓРґР°Р»СЏРµС‚СЃСЏ РёР· СЃС‚РµРєР°
 				}
 				else
 				{	
@@ -98,7 +98,7 @@ void parse(char& op, stack <char>& operations, stack <int>& numbers, Priority pr
 			}
 		}
 	}
-	if (op != ')')											// внесение оператора в стек  ( ")" - необходим только для вычислений )
+	if (op != ')')											// РІРЅРµСЃРµРЅРёРµ РѕРїРµСЂР°С‚РѕСЂР° РІ СЃС‚РµРє  ( ")" - РЅРµРѕР±С…РѕРґРёРј С‚РѕР»СЊРєРѕ РґР»СЏ РІС‹С‡РёСЃР»РµРЅРёР№ )
 	{
 		operations.push(op);
 	}
@@ -106,12 +106,12 @@ void parse(char& op, stack <char>& operations, stack <int>& numbers, Priority pr
 
 void token(string expr, Priority pr)		
 {
-	stack <int> numbers;									// стек чисел с командной строки
-	stack <char> operations;								// стек операторов с командной строки
+	stack <int> numbers;									// СЃС‚РµРє С‡РёСЃРµР» СЃ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
+	stack <char> operations;								// СЃС‚РµРє РѕРїРµСЂР°С‚РѕСЂРѕРІ СЃ РєРѕРјР°РЅРґРЅРѕР№ СЃС‚СЂРѕРєРё
 
-	int num(0);												// единица стека чисел
-	char op = ' ';											// единица стека опеаторов
-	bool flag(false);										// флаг для определения отрицательного числа (если это не вычитание)
+	int num(0);												// РµРґРёРЅРёС†Р° СЃС‚РµРєР° С‡РёСЃРµР»
+	char op = ' ';											// РµРґРёРЅРёС†Р° СЃС‚РµРєР° РѕРїРµР°С‚РѕСЂРѕРІ
+	bool flag(false);										// С„Р»Р°Рі РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РѕС‚СЂРёС†Р°С‚РµР»СЊРЅРѕРіРѕ С‡РёСЃР»Р° (РµСЃР»Рё СЌС‚Рѕ РЅРµ РІС‹С‡РёС‚Р°РЅРёРµ)
 
 	int a(0), b(0), res(0);
 	char c = ' ';
@@ -159,12 +159,12 @@ void token(string expr, Priority pr)
 int main()
 {
 	Priority pr;
-	string expr;											// вводимое с консоли выражение
+	string expr;											// РІРІРѕРґРёРјРѕРµ СЃ РєРѕРЅСЃРѕР»Рё РІС‹СЂР°Р¶РµРЅРёРµ
 	do
 	{
 		cout << "Enter the expression: ";
 		getline(cin, expr);
-		expr.erase(std::remove(expr.begin(), expr.end(), ' '), expr.end());		// удаление всех пробелов в вводе
+		expr.erase(std::remove(expr.begin(), expr.end(), ' '), expr.end());		// СѓРґР°Р»РµРЅРёРµ РІСЃРµС… РїСЂРѕР±РµР»РѕРІ РІ РІРІРѕРґРµ
 		token(expr, pr);
 	} while (!expr.empty());
 
