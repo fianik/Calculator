@@ -22,7 +22,7 @@ int op_priority(char& op, Priority pr)
 	pr.sign = op;
 	if ((op == '+') || (op == '-')) { pr.val = 1; }
 	else if ((op == '*') || (op == '/')) { pr.val = 2; }
-	else { pr.val = 0; }									// т.е. "(" и ")" тоже имеют 0 приоритет
+	else { pr.val = 0; }									// т.е. "(" и ")" тоже имеют нулевой приоритет
 	return pr.val;
 }
 
