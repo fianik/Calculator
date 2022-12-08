@@ -165,7 +165,7 @@ void done()
 	{
 		cout << "Enter the expression: ";
 		getline(cin, expr);
-		expr.erase(std::remove(expr.begin(), expr.end(), ' '), expr.end());		// удаление всех пробелов в вводе
+		expr.erase(remove(expr.begin(), expr.end(), ' '), expr.end());		// удаление всех пробелов в вводе
 		if (!expr.empty()) { token(expr, pr); }
 	} while (!expr.empty());
 }
